@@ -1,4 +1,4 @@
-import random
+import random,os
 def listaATupla(lista):
     indexed_data = [(i+1, lista[i]) for i in range(len(lista))]
     return indexed_data
@@ -148,3 +148,139 @@ def alphabetize_names(lista):
 
 #alphabetize_names([{'first': 'Reuven', 'last': 'Lerner', 'email': 'reuven@lerner.co.il'},{'first': 'Donald', 'last': 'Trump', 'email': 'president@whitehouse.gov'},{'first': 'Vladimir', 'last': 'Putin', 'email': 'president@kremvax.ru'}])
 
+#Ejercicio 11
+def palabraLetrasMayor(lista):
+    palabras = lista.split()
+    maximoRepe = 0
+    maxPalabra = ""
+
+    for palabra in palabras:
+        letras = {}
+        for letra in palabra:
+            if letra in letras:
+                letras[letra] += 1
+            else:
+                letras[letra] = 1
+
+            maximoLetraPalabra = max(letras.values())
+
+        if maximoLetraPalabra > maximoRepe:
+            maximoRepe = maximoLetraPalabra
+            maxPalabra = palabra
+
+    print(f"Palabra con más ocurrencias: {maxPalabra}")
+
+#palabraLetrasMayor("Esta función divide la cadena de texto en utilizando el método split(). Para cada palabra, se crea un diccionario letras_repetidas que almacena el número de ocurrencias de cada letra. Se itera a través de cada letra de la palabra y se actualiza el valor correspondiente en el diccionario.")
+
+#Ejercicio 12
+PEOPLE = [('Donald', 'Trump', 7.85), ('Vladimir', 'Putin', 3.626), ('Jinping', 'Xi', 10.603)]
+
+def format_sort_records(lista):
+    resultado = ""
+    for i in lista:
+        resultado = resultado + i[1] + "\t" + i[0] + "\t" + str(int(i[2])) + "." + (str(i[2]).split('.')[1][0:2]) + "\n"
+    print(resultado)
+
+#format_sort_records(PEOPLE)
+
+#Ejercicio 13
+MENU = {"sandwich":10,"tea":7}
+def restaurante():
+    cuenta = 0
+    while (1):
+        entrada = input("Ingrese un plato (pulse Enter para salir):")
+        if entrada == "":
+            break
+
+        try:
+            cuenta = cuenta + MENU[entrada]
+            print(f"{entrada} cuesta {MENU[entrada]}. Cuenta acumulada: {cuenta}")
+        except:
+            print("No existe ese plato")
+
+    print(f"Total: {cuenta}")
+
+#restaurante()
+
+#Ejercicio 14
+def dictdiff(d1, d2):
+    diff = {}
+    keys = d1.keys() | d2.keys()
+    for key in keys:
+        if d1.get(key) != d2.get(key):
+            diff[key] = [d1.get(key), d2.get(key)]
+    print(diff)
+
+d1 = {'a': 1, 'b': 2, 'c': 3}
+d2 = {'a': 1, 'b': 2, 'c': 4}
+d3 = {'a': 1, 'b': 2, 'd': 3}
+d4 = {'a': 1, 'b': 2, 'c': 4}
+d5 = {'a': 1, 'b': 2, 'd': 4}
+
+#dictdiff(d1,d5)
+
+#Ejercicio 15
+def extensiones(directorio):
+    dic = {}
+    for file in os.walk(directorio):
+        if '.' in file:
+            extension = file.split('.')[1]
+            if extension not in dic.keys():
+                dic[extension] = 1
+            else:
+                dic[extension] += 1
+    print(dic)
+
+#extensiones("/Users/alvaroraso/Desktop")
+def extensiones2(directorio):
+    dic = {}
+    for root, dirs, files in os.walk(directorio):
+        for file in files:
+            if '.' in file:
+                extension = file.split('.')[-1]
+                if extension not in dic.keys():
+                    dic[extension] = 1
+                else:
+                    dic[extension] += 1
+    for key, value in dic.items():
+        print(f"{key}\t{value}")
+
+#extensiones2("/Users/alvaroraso/Documents")
+
+#Ejercicio 16
+def tail(ruta):
+    fichero = open(ruta)
+    resultado = fichero.read().split("\n")[-10:]
+    print(resultado)
+    print(len(resultado))
+
+#tail("/Users/alvaroraso/Downloads/texto.txt")
+
+#Ejercicio 17
+def read_sum(ruta):
+    fichero = open(ruta).read().split()
+    acumulador = []
+    for num in fichero:
+        try:
+            acumulador.append((int(num)))
+        except:
+            pass
+    print(f"Suma: {sum(acumulador)}")
+
+#read_sum("/Users/alvaroraso/Downloads/numeros.txt")
+
+#Ejercicio 18
+def passwd_to_dict(file_path):
+    users_dict = {}
+    with open(file_path, 'r') as file:
+        for line in file:
+            if not line.strip() or line.startswith('#'):
+                continue
+            user_info = line.split(':')
+            username, user_id = user_info[0], user_info[2]
+            users_dict[username] = int(user_id)
+    return users_dict
+
+#passwd_to_dict("/Users/alvaroraso/Downloads/numeros.txt")
+
+#Ejercicio 19
